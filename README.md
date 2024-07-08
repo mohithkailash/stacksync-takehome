@@ -15,7 +15,7 @@ This project provides a secure Python script execution service. The service allo
 
 ```bash
 curl -X POST \
-  https://[YOUR_CLOUD_RUN_URL]/execute \
+  https://python-script-executor-bsze2rjrca-uc.a.run.app/execute \
   -H 'Content-Type: application/json' \
   -d "{\"script\": \"import json\n\nclass Calculator:\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\n    def add(self):\n        return self.a + self.b\n\n    def subtract(self):\n        return self.a - his.b\n\n    def multiply(self):\n        return self.a * self.b\n\n    def divide(self):\n        try:\n            return self.a / self.b\n        except ZeroDivisionError:\n            return 'Error: Division by zero'\n\ndef main():\n    calc = Calculator(10, 5)\n    result = {\n        'addition': calc.add(),\n        'subtraction': calc.subtract(),\n        'multiplication': calc.multiply(),\n        'division': calc.divide()\n    }\n    return result\n\nif __name__ == '__main__':\n    print(json.dumps(main()))\"}"
 
