@@ -29,20 +29,23 @@ RUN pip3 install Flask==3.0.3 Werkzeug==3.0.3
 
 WORKDIR /app
 
+
+RUN mkdir /app/tmp && chmod 777 /app/tmp
+
 COPY *.py .
 COPY nsjail.cfg .
 
-RUN useradd -m myuser
-RUN chown -R myuser:myuser /app && \
-    chmod 755 /app && \
-    chmod 644 /app/* && \
-    chmod +x /usr/bin/nsjail
+# RUN useradd -m myuser
+# RUN chown -R myuser:myuser /app && \
+#     chmod 755 /app && \
+#     chmod 644 /app/* && \
+#     chmod +x /usr/bin/nsjail
 
 # Ensure Python is in a known location
 RUN ln -s /usr/bin/python3 /usr/local/bin/python3
 
-USER myuser
-
 EXPOSE 8080
+
+ENV PORT 8080
 
 CMD ["python3", "app.py"]

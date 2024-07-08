@@ -6,6 +6,12 @@ import tempfile
 
 app = Flask(__name__)
 
+if not os.path.exists('/app/tmp'):
+
+    os.makedirs('/app/tmp')
+
+tempfile.tempdir = '/app/tmp'
+
 @app.route('/execute', methods=['POST'])
 def execute_script():
     if not request.is_json:
@@ -18,7 +24,7 @@ def execute_script():
     if 'def main():' not in script:
         return jsonify({"error": "Script must contain a main() function"}), 400
 
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as temp_file:
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False, dir='/app/tmp') as temp_file:
         temp_file.write(script)
         temp_file_path = temp_file.name
 
