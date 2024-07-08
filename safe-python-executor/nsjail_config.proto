@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+message NsJailConfig {
+  string name = 1;
+  string description = 2;
+
+  enum Mode {
+    ONCE = 0;
+    DAEMON = 1;
+  }
+  Mode mode = 3;
+
+  string hostname = 4;
+  int32 time_limit = 5;
+  string cwd = 6;
+
+  int32 rlimit_as = 7;
+  int32 rlimit_cpu = 8;
+  int32 rlimit_fsize = 9;
+  int32 rlimit_nofile = 10;
+
+  bool clone_newnet = 11;
+  bool clone_newuser = 12;
+  bool clone_newns = 13;
+  bool clone_newpid = 14;
+  bool clone_newipc = 15;
+  bool clone_newuts = 16;
+
+  bool keep_env = 17;
+  repeated string envc = 18;
+
+  message Mount {
+    string src = 1;
+    string dst = 2;
+    bool is_bind = 3;
+    bool rw = 4;
+    string fstype = 5;
+  }
+  repeated Mount mount = 19;
+
+  message ExecBin {
+    string path = 1;
+  }
+  ExecBin exec_bin = 20;
+}
