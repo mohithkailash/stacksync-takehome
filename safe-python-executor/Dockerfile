@@ -45,4 +45,4 @@ USER myuser
 
 EXPOSE 8080
 
-CMD ["python3", "app-nojail.py"]
+CMD ["python3", "app.py"]
