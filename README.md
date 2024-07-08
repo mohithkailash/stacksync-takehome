@@ -13,19 +13,33 @@ This project provides a secure Python script execution service. The service allo
 ### Example cURL Request
 
 
-
+### Simple input
 ```bash
 curl -X POST "https://python-script-executor-bsze2rjrca-uc.a.run.app/execute" \
      -H "Content-Type: application/json" \
      -d '{"script": "def main():\n    return {\"message\": \"Hello, World!\"}\n\nif __name__ == \"__main__\":\n    import json\n    print(json.dumps(main()))"}'
 ```
+### Expected output
+<pre>{"message":"Hello, World!"}</pre>
 
+### Complex input
 ```bash
 curl -X POST "https://python-script-executor-bsze2rjrca-uc.a.run.app/execute" \
      -H "Content-Type: application/json" \
      -d '{"script": "import json\n\nclass Calculator:\n    def __init__(self, a, b):\n        self.a = a\n        self.b = b\n\n    def add(self):\n        return self.a + self.b\n\n    def subtract(self):\n        return self.a - self.b\n\n    def multiply(self):\n        return self.a * self.b\n\n    def divide(self):\n        try:\n            return self.a / self.b\n        except ZeroDivisionError:\n            return \"Error: Division by zero\"\n\ndef main():\n    calc = Calculator(10, 5)\n    result = {\n        \"addition\": calc.add(),\n        \"subtraction\": calc.subtract(),\n        \"multiplication\": calc.multiply(),\n        \"division\": calc.divide()\n    }\n    return result\n\nif __name__ == \"__main__\":\n    print(json.dumps(main()))"}'
 
 ```
+### Expected output
+<pre>{"addition":15,"division":2.0,"multiplication":50,"subtraction":5}</pre>
+
+## Postman view
+
+![image](https://github.com/mohithkailash/stacksync-takehome/assets/50114158/1edf7c12-4e60-4097-a9e9-ce8b20f3a3a9)
+
+![image](https://github.com/mohithkailash/stacksync-takehome/assets/50114158/50f165a8-81ed-4d5f-82fc-9ddff2c3f8cc)
+
+
+
 
 ## Setup and Installation
 
@@ -41,3 +55,15 @@ curl -X POST "https://python-script-executor-bsze2rjrca-uc.a.run.app/execute" \
 git clone git@github.com:mohithkailash/stacksync-takehome.git
 cd stacksync-takehome
 ```
+
+## Build and Push Docker Image
+
+### 1. Build the Docker Image
+
+### 2.Tag the Docker Image
+
+### 3. Push the Docker Image to Google Container Registry
+
+
+Contact
+For questions, please contact mohithkailash13@gmail.com.
