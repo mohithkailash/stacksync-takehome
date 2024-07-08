@@ -24,19 +24,25 @@ def execute_script():
 
     try:
         result = subprocess.run([
-    'nsjail',
-    '--config', '/app/nsjail.cfg',
-    '--', '/usr/local/bin/python3', temp_file_path
-], capture_output=True, text=True, timeout=35)
+            'nsjail',
+            '--config', '/app/nsjail.cfg',
+            '--', '/usr/local/bin/python3', temp_file_path
+        ], capture_output=True, text=True, timeout=35)
 
         if result.returncode != 0:
             return jsonify({"error": f"Script execution failed: {result.stderr}"}), 500
 
+        stdout_lines = result.stdout.splitlines()
+
+        # Capture all stdout lines as part of the response
+        output = {'stdout': stdout_lines}
         try:
-            output = json.loads(result.stdout)
-            return jsonify(output)
+            json_output = json.loads(stdout_lines[-1])
+            output['result'] = json_output
         except json.JSONDecodeError:
-            return jsonify({"error": "Script output is not valid JSON", "result": result.stdout, "stderr": result.stderr}), 500
+            return jsonify({"error": "Script output is not valid JSON", "stdout": stdout_lines, "stderr": result.stderr}), 500
+
+        return jsonify(output)
 
     except subprocess.TimeoutExpired:
         return jsonify({"error": "Script execution timed out"}), 500
